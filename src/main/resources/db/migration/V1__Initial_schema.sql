@@ -25,6 +25,10 @@ CREATE TABLE delivery (
     shipping_postal_code TEXT NOT NULL,
     shipping_country TEXT NOT NULL,
 
+    latitude DOUBLE PRECISION,
+    longitude DOUBLE PRECISION,
+    location VARCHAR(255),
+
     created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     version BIGINT NOT NULL DEFAULT 0

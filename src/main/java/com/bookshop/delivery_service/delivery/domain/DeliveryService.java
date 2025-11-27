@@ -30,6 +30,11 @@ public class DeliveryService {
         return deliveryRepository.findAll();
     }
 
+    public Mono<Delivery> getDeliveryByOrderId(Long orderId) {
+        return deliveryRepository.findByOrderId(orderId)
+                .filter(delivery -> delivery.getStatus().equals(DeliveryStatus.ASSIGNED));
+    }
+
     public Flux<Delivery> getDeliveriesByStatus(DeliveryStatus status) {
         return deliveryRepository.findByStatus(status);
     }
