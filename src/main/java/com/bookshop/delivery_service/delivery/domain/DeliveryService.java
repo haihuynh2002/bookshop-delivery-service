@@ -30,6 +30,12 @@ public class DeliveryService {
         return deliveryRepository.findAll();
     }
 
+    public Mono<Delivery> getDeliveryByOrderId(Long orderId) {
+        return deliveryRepository.findAllByOrderId(orderId)
+                .filter(delivery -> delivery.getStatus().equals(DeliveryStatus.ASSIGNED))
+                .next();
+    }
+
     public Flux<Delivery> getDeliveriesByStatus(DeliveryStatus status) {
         return deliveryRepository.findByStatus(status);
     }
@@ -55,7 +61,7 @@ public class DeliveryService {
                             : buildPendingDelivery(event);
                     case OrderStatus.PAID -> buildPaidDelivery(event);
                     case OrderStatus.CANCELLED -> cancelDelivery(event.getId());
-                    default -> Mono.error(new InvalidOrderStatusException(event.getStatus().toString()));
+                    default -> Mono.empty();
                 })
                 .flatMap(deliveryRepository::save);
     }
@@ -65,7 +71,7 @@ public class DeliveryService {
                 .flatMap(event -> switch (event.getStatus()) {
                     case PaymentStatus.COMPLETED -> processDelivery(event.getOrderId());
                     case PaymentStatus.CANCELLED -> cancelDelivery(event.getOrderId());
-                    default -> Mono.error(new InvalidPaymentStatusException(event.getStatus().toString()));
+                    default -> Mono.empty();
                 })
                 .flatMap(deliveryRepository::save);
     }

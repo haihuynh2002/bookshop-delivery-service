@@ -76,6 +76,10 @@ public class Delivery {
     String shippingPostalCode;
     String shippingCountry;
 
+    Double latitude;
+    Double longitude;
+    String location;
+
     @CreatedDate
     Instant createdDate;
 
