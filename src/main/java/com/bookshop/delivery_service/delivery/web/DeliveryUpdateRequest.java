@@ -11,4 +11,8 @@ import lombok.experimental.FieldDefaults;
 @Builder
 public class DeliveryUpdateRequest {
     DeliveryStatus status;
+
+    Double latitude;
+    Double longitude;
+    String location;
 }

@@ -25,6 +25,12 @@ public class DeliveryController {
 		return deliveryService.getAllDeliveries();
 	}
 
+    @GetMapping("/order/{orderId}")
+    public Mono<Delivery> getDeliveryByOrderId(@PathVariable Long orderId) {
+        return deliveryService.getDeliveryByOrderId(orderId);
+    }
+
+
     @GetMapping("/my-deliveries")
     public Flux<Delivery> getDeliveriesByCourier(@AuthenticationPrincipal Jwt jwt) {
         return deliveryService.getDeliveriesByCourierId(jwt.getSubject());
@@ -39,7 +45,4 @@ public class DeliveryController {
     ) {
 		return deliveryService.updateDelivery(id, request, jwt);
 	}
-
-
-
 }
